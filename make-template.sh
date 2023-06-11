@@ -6,6 +6,7 @@ DISK_EXPANSION=${DISK_EXPANSION:-40}
 VM_NETWORK=${VM_NETWORK:-"VM Network"}
 
 # Check for necessary tools
+command -v qemu-img >/dev/null 2>&1 || { echo >&2 "qemu-img is required but it's not installed. Aborting."; exit 1; }
 command -v govc >/dev/null 2>&1 || { echo >&2 "govc is required but it's not installed. Aborting."; exit 1; }
 
 # Check govc configuration
