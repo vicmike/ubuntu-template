@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set DISK_EXPANSION to 0 if you want keep the Ubuntu cloud-image default of 10GB
-UBUNTU_RELEASE=${UBUNTU_RELEASE:-jammy}
-DISK_EXPANSION=${DISK_EXPANSION:-0}
+UBUNTU_RELEASE=${UBUNTU_RELEASE:-lunar}
+DISK_EXPANSION=${DISK_EXPANSION:-40}
 VM_NETWORK=${VM_NETWORK:-"VM Network"}
 
 # Check for necessary tools
@@ -38,7 +38,7 @@ USER_DATA=$(base64 -w0 user-data.yml)
 govc import.vmdk ${UBUNTU_RELEASE}-template.vmdk 
 
 # Create VM
-govc vm.create -net "$VM_NETWORK" -on=false -g ubuntu64Guest -m 4096 -c 2 -g ubuntu64Guest -disk=${UBUNTU_RELEASE}-template/${UBUNTU_RELEASE}-template.vmdk  ${UBUNTU_RELEASE}-template
+govc vm.create -net "$VM_NETWORK" -net.adapter vmxnet3 -on=false -g ubuntu64Guest -m 4096 -c 2 -g ubuntu64Guest -disk=${UBUNTU_RELEASE}-template/${UBUNTU_RELEASE}-template.vmdk  ${UBUNTU_RELEASE}-template
 
 # Change VM settings
 govc vm.change -vm ${UBUNTU_RELEASE}-template -e "guestinfo.userdata.encoding=base64"
